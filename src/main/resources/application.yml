@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: github-access-report
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=5m
+
+github:
+  api:
+    base-url: https://api.github.com
+    token: ${GITHUB_TOKEN}
+    # Maximum concurrent requests to GitHub API
+    concurrency: 10
+    # Requests per second rate limit (GitHub allows 5000/hr for authenticated)
+    rate-limit-per-hour: 5000
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.github.accessreport: INFO
+    org.springframework.web.reactive.function.client: DEBUG
